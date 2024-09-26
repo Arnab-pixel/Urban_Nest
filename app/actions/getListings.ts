@@ -24,7 +24,7 @@ export default async function getListings(params: IListingParams) {
       startDate,
     } = params;
 
-    let query: any = {};
+    const query: any = {};
 
     if (userId) {
       query.userId = userId;
