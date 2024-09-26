@@ -31,9 +31,6 @@
     "world-countries": "^5.0.0",
     "zustand": "^5.0.0-rc.2"
   },
-  "eslint": {
-    "ignoreDuringBuilds": true
-  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/leaflet": "^1.9.12",
