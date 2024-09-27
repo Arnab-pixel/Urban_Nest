@@ -22,7 +22,11 @@ export default async function getListingById(params: IParams) {
     }
 
     return listing;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message); // Use error.message for a cleaner error
+    } else {
+      throw new Error("An unknown error occurred"); // Fallback for non-Error objects
+    }
   }
 }

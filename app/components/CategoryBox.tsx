@@ -16,13 +16,14 @@ const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
   const params = useSearchParams();
 
   const handleClick = useCallback(() => {
-    let currentQuery = {};
+    let currentQuery = {} as {
+      category?: string;
+    };
 
     if (params) {
       currentQuery = qs.parse(params.toString());
     }
-
-    const updatedQuery: any = {
+    const updatedQuery: Partial<typeof currentQuery> = {
       ...currentQuery,
       category: label,
     };

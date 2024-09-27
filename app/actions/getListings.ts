@@ -24,7 +24,32 @@ export default async function getListings(params: IListingParams) {
       startDate,
     } = params;
 
-    const query: any = {};
+    interface ListingQuery {
+      userId?: string;
+      category?: string;
+      roomCount?: { gte: number };
+      guestCount?: { gte: number };
+      bathroomCount?: { gte: number };
+      locationValue?: string;
+      NOT?: {
+        reservations: {
+          some: {
+            OR: Array<
+              | {
+                  endDate: { gte: string };
+                  startDate: { lte: string };
+                }
+              | {
+                  startDate: { lte: string };
+                  endDate: { gte: string };
+                }
+            >;
+          };
+        };
+      };
+    }
+
+    const query: ListingQuery = {};
 
     if (userId) {
       query.userId = userId;
@@ -71,7 +96,11 @@ export default async function getListings(params: IListingParams) {
       },
     });
     return listings;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message); // Use error.message for a cleaner error
+    } else {
+      throw new Error("An unknown error occurred"); // Fallback for non-Error objects
+    }
   }
 }

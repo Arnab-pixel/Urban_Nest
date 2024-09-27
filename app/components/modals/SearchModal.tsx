@@ -55,13 +55,20 @@ const SearchModal = () => {
       return onNext();
     }
 
-    let currentQuery = {};
+    let currentQuery = {} as {
+      startDate?: string;
+      endDate?: string;
+      locationValue?: string;
+      guestCount?: number;
+      roomCount?: number;
+      bathroomCount?: number;
+    };
 
     if (params) {
       currentQuery = qs.parse(params.toString());
     }
 
-    const updatedQuery: any = {
+    const updatedQuery: Partial<typeof currentQuery> = {
       ...currentQuery,
       locationValue: location?.value,
       guestCount,

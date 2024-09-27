@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 
 declare global {
-  let cloudinary: any;
+  let cloudinary: unknown;
 }
 
 interface ImageUploadProps {
@@ -16,8 +16,13 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
   const handleUpload = useCallback(
-    (result: any) => {
-      onChange(result.info.secure_url);
+    (result: unknown) => {
+      if (typeof result === "object" && result !== null && "info" in result) {
+        const info = (result as { info: { secure_url: string } }).info;
+        if (typeof info.secure_url === "string") {
+          onChange(info.secure_url);
+        }
+      }
     },
     [onChange]
   );
